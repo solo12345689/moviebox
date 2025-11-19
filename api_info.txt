@@ -1,0 +1,20 @@
+Package contents:
+Found submodule: __main__ (is_pkg=False)
+Found submodule: _bases (is_pkg=False)
+Found submodule: cli (is_pkg=True)
+Found submodule: constants (is_pkg=False)
+Found submodule: core (is_pkg=False)
+Found submodule: download (is_pkg=False)
+Found submodule: exceptions (is_pkg=False)
+Found submodule: extractor (is_pkg=True)
+Found submodule: extras (is_pkg=True)
+Found submodule: helpers (is_pkg=False)
+Found submodule: models (is_pkg=False)
+Found submodule: requests (is_pkg=False)
+Found submodule: stream (is_pkg=False)
+
+Top level attributes:
+['CaptionFileDownloader', 'DOWNLOAD_QUALITIES', 'DownloadMode', 'DownloadTracker', 'DownloadableMovieFilesDetail', 'DownloadableTVSeriesFilesDetail', 'DownloadedFile', 'HOST_URL', 'Homepage', 'HotMoviesAndTVSeries', 'MIRROR_HOSTS', 'MediaFileDownloader', 'MovieAuto', 'MovieDetails', 'PopularSearch', 'Recommend', 'SELECTED_HOST', 'Search', 'SearchSuggestion', 'Session', 'SubjectType', 'TVSeriesDetails', 'Trending', '__all__', '__author__', '__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__path__', '__repo__', '__spec__', '__version__', '_bases', 'constants', 'core', 'download', 'exceptions', 'extractor', 'extras', 'helpers', 'logger', 'logging', 'metadata', 'models', 'requests', 'resolve_media_file_to_be_downloaded']
+
+CLI module attributes:
+['Downloader', '__all__', '__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__path__', '__spec__', 'downloader', 'helpers']

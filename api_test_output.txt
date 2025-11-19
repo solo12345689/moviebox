@@ -1,0 +1,116 @@
+--- INSPECTING SEARCH ---
+Help on class Search in module moviebox_api.core:
+
+class Search(BaseSearch)
+ |  Search(
+ |      session: Session,
+ |      query: str,
+ |      subject_type: SubjectType = <SubjectType.ALL: 0>,
+ |      page: int = 1,
+ |      per_page: int = 24
+ |  )
+ |
+ |  Performs a search of movies, tv series, music or all
+ |
+ |  Method resolution order:
+ |      Search
+ |      BaseSearch
+ |      moviebox_api._bases.BaseContentProviderAndHelper
+ |      moviebox_api._bases.BaseContentProvider
+ |      abc.ABC
+ |      moviebox_api._bases.ContentProviderHelper
+ |      builtins.object
+ |
+ |  Methods defined here:
+ |
+ |  __init__(
+ |      self,
+ |      session: Session,
+ |      query: str,
+ |      subject_type: SubjectType = <SubjectType.ALL: 0>,
+ |      page: int = 1,
+ |      per_page: int = 24
+ |  )
+ |      Constructor for `Search`
+ |
+ |      Args:
+ |          session (Session): MovieboxAPI request session
+ |          query (str): Search query.
+ |          subject_type (SubjectType, optional): Subject-type filter for performing search. Defaults to SubjectType.ALL.
+ |          page (int, optional): Page number filter. Defaults to 1.
+ |          per_page (int, optional): Maximum number of items per page. Defaults to 24.
+ |
+ |  __repr__(self)
+ |      Return repr(self).
+ |
+ |  async get_content(self) -> dict
+ |      Performs the actual fetch of contents
+ |
+ |      Returns:
+ |          dict: Fetched results
+ |
+ |  async get_content_model(self) -> SearchResultsModel
+ |      Modelled version of the contents.
+ |
+ |      Returns:
+ |          SearchResultsModel: Modelled contents
+ |
+ |  next_page(self, content: SearchResultsModel) -> Search
+ |      Navigate to the search results of the next page.
+ |
+ |      Args:
+ |          content (SearchResultsModel): Modelled version of search results
+ |
+ |      Returns:
+ |          Search
+ |
+ |  previous_page(self, content: SearchResultsModel) -> Search
+ |      Navigate to the search results of the previous page.
+ |
+ |      - Useful when the currrent page is greater than  1.
+ |
+ |      Args:
+ |          content (SearchResultsModel): Modelled version of search results
+ |
+ |      Returns:
+ |          Search
+ |
+ |  ----------------------------------------------------------------------
+ |  Data and other attributes defined here:
+ |
+ |  __abstractmethods__ = frozenset()
+ |
+ |  ----------------------------------------------------------------------
+ |  Methods inherited from BaseSearch:
+ |
+ |  get_item_details(self, item: SearchResultsItem) -> MovieDetails | TVSeriesDetails
+ |      Get object that provide more details about the search results item such as casts, seasons etc
+ |
+ |      Args:
+ |          item (SearchResultsItem): Search result item
+ |
+ |      Returns:
+ |          MovieDetails | TVSeriesDetails: Object providing more details about the item
+ |
+ |  ----------------------------------------------------------------------
+ |  Data descriptors inherited from moviebox_api._bases.BaseContentProvider:
+ |
+ |  __dict__
+ |      dictionary for instance variables
+ |
+ |  __weakref__
+ |      list of weak references to the object
+ |
+ |  ----------------------------------------------------------------------
+ |  Methods inherited from moviebox_api._bases.ContentProviderHelper:
+ |
+ |  get_content_model_sync(self, *args, **kwargs) -> object | list[object]
+ |      Get content model `synchronously`
+ |
+ |  get_content_sync(self, *args, **kwargs) -> dict | list[dict]
+ |      Get content `synchronously`
+
+None
+
+--- TESTING MOVIEAUTO ---
+MovieAuto methods: ['__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__firstlineno__', '__format__', '__ge__', '__getattribute__', '__getstate__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__static_attributes__', '__str__', '__subclasshook__', '__weakref__', '_caption_download_handler', '_caption_language', '_movie_download_handler', '_search_handler', '_session', 'caption_file_downloader', 'media_file_downloader', 'run', 'run_sync']
