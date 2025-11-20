@@ -1,7 +1,41 @@
 import React from 'react';
 
 const DetailsModal = ({ item, onClose, onDownload, onStream, progress }) => {
+    const [selectedSeason, setSelectedSeason] = React.useState(null);
+    const [selectedEpisode, setSelectedEpisode] = React.useState(1);
+
+    React.useEffect(() => {
+        if (item && item.seasons && item.seasons.length > 0) {
+            setSelectedSeason(item.seasons[0]);
+            setSelectedEpisode(1);
+        }
+    }, [item]);
+
     if (!item) return null;
+
+    const handleStreamClick = () => {
+        if (item.type === 'series' || item.type === 'anime') {
+            if (!selectedSeason) {
+                alert("Please select a season");
+                return;
+            }
+            onStream(item, selectedSeason.season_number, selectedEpisode);
+        } else {
+            onStream(item);
+        }
+    };
+
+    const handleDownloadClick = () => {
+        if (item.type === 'series' || item.type === 'anime') {
+            if (!selectedSeason) {
+                alert("Please select a season");
+                return;
+            }
+            onDownload(item, selectedSeason.season_number, selectedEpisode);
+        } else {
+            onDownload(item);
+        }
+    };
 
     return (
         <div style={{
@@ -63,12 +97,73 @@ const DetailsModal = ({ item, onClose, onDownload, onStream, progress }) => {
                         <div style={{ display: 'flex', gap: '1rem', color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
                             <span>{item.year}</span>
                             <span>{item.rating || 'N/A'}</span>
-                            <span>{item.type}</span>
+                            <span style={{ textTransform: 'capitalize' }}>{item.type}</span>
                         </div>
 
                         <p style={{ lineHeight: '1.6', marginBottom: '2rem', color: '#d1d5db' }}>
                             {item.plot || 'No plot available.'}
                         </p>
+
+                        {(item.type === 'series' || item.type === 'anime') && (
+                            <div style={{ marginBottom: '2rem', background: 'rgba(255,255,255,0.05)', padding: '1rem', borderRadius: '8px' }}>
+                                <h3 style={{ marginBottom: '1rem', fontSize: '1.2rem' }}>Select Episode</h3>
+                                {item.seasons && item.seasons.length > 0 ? (
+                                    <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                                            <label style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Season</label>
+                                            <select
+                                                value={selectedSeason ? selectedSeason.season_number : ''}
+                                                onChange={(e) => {
+                                                    const season = item.seasons.find(s => s.season_number === parseInt(e.target.value));
+                                                    setSelectedSeason(season);
+                                                    setSelectedEpisode(1);
+                                                }}
+                                                style={{
+                                                    padding: '0.5rem',
+                                                    background: 'var(--bg-primary)',
+                                                    color: 'white',
+                                                    border: '1px solid rgba(255,255,255,0.1)',
+                                                    borderRadius: '4px',
+                                                    minWidth: '100px'
+                                                }}
+                                            >
+                                                {item.seasons.map(s => (
+                                                    <option key={s.season_number} value={s.season_number}>
+                                                        Season {s.season_number}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </div>
+
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                                            <label style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Episode</label>
+                                            <select
+                                                value={selectedEpisode}
+                                                onChange={(e) => setSelectedEpisode(parseInt(e.target.value))}
+                                                style={{
+                                                    padding: '0.5rem',
+                                                    background: 'var(--bg-primary)',
+                                                    color: 'white',
+                                                    border: '1px solid rgba(255,255,255,0.1)',
+                                                    borderRadius: '4px',
+                                                    minWidth: '100px'
+                                                }}
+                                            >
+                                                {selectedSeason && Array.from({ length: selectedSeason.max_episodes }, (_, i) => i + 1).map(ep => (
+                                                    <option key={ep} value={ep}>
+                                                        Episode {ep}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', margin: 0 }}>
+                                        Season information not available. You can still stream or download, and the first episode will be selected.
+                                    </p>
+                                )}
+                            </div>
+                        )}
 
                         {progress ? (
                             <div style={{ marginBottom: '1rem' }}>
@@ -93,13 +188,13 @@ const DetailsModal = ({ item, onClose, onDownload, onStream, progress }) => {
                             </div>
                         ) : (
                             <div style={{ display: 'flex', gap: '1rem' }}>
-                                <button className="btn btn-primary" onClick={() => onStream(item)}>
+                                <button className="btn btn-primary" onClick={handleStreamClick}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '8px' }}>
                                         <polygon points="5 3 19 12 5 21 5 3"></polygon>
                                     </svg>
                                     Stream Now
                                 </button>
-                                <button className="btn" style={{ background: 'rgba(255,255,255,0.1)', color: 'white' }} onClick={() => onDownload(item)}>
+                                <button className="btn" style={{ background: 'rgba(255,255,255,0.1)', color: 'white' }} onClick={handleDownloadClick}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '8px' }}>
                                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                                         <polyline points="7 10 12 15 17 10"></polyline>

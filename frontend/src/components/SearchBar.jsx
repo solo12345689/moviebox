@@ -2,16 +2,56 @@ import React, { useState } from 'react';
 
 const SearchBar = ({ onSearch }) => {
     const [query, setQuery] = useState('');
+    const [contentType, setContentType] = useState('all');
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (query.trim()) {
-            onSearch(query);
+            onSearch(query, contentType);
         }
     };
 
     return (
         <form onSubmit={handleSubmit} className="search-container" style={{ width: '100%', maxWidth: '600px', margin: '0 auto 2rem' }}>
+            {/* Content Type Filter */}
+            <div style={{
+                display: 'flex',
+                gap: '1rem',
+                marginBottom: '1rem',
+                justifyContent: 'center',
+                flexWrap: 'wrap'
+            }}>
+                {[
+                    { value: 'all', label: 'All' },
+                    { value: 'movie', label: 'Movies' },
+                    { value: 'series', label: 'TV Series' },
+                    { value: 'anime', label: 'Anime' }
+                ].map(type => (
+                    <label key={type.value} style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.5rem',
+                        cursor: 'pointer',
+                        padding: '0.5rem 1rem',
+                        borderRadius: '8px',
+                        background: contentType === type.value ? 'var(--accent-primary)' : 'rgba(255,255,255,0.05)',
+                        border: `1px solid ${contentType === type.value ? 'var(--accent-primary)' : 'rgba(255,255,255,0.1)'}`,
+                        transition: 'all 0.3s ease',
+                        fontSize: '0.9rem'
+                    }}>
+                        <input
+                            type="radio"
+                            name="contentType"
+                            value={type.value}
+                            checked={contentType === type.value}
+                            onChange={(e) => setContentType(e.target.value)}
+                            style={{ display: 'none' }}
+                        />
+                        <span>{type.label}</span>
+                    </label>
+                ))}
+            </div>
+
             <div style={{ position: 'relative' }}>
                 <input
                     type="text"

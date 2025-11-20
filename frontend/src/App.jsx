@@ -4,7 +4,7 @@ import MovieCard from './components/MovieCard';
 import DetailsModal from './components/DetailsModal';
 import './styles/index.css';
 
-const API_BASE = 'http://localhost:8000/api';
+const API_BASE = '/api';
 
 function App() {
     const [results, setResults] = useState([]);
@@ -44,10 +44,10 @@ function App() {
         };
     }, []);
 
-    const handleSearch = async (query) => {
+    const handleSearch = async (query, type = 'all') => {
         setLoading(true);
         try {
-            const res = await fetch(`${API_BASE}/search?query=${encodeURIComponent(query)}`);
+            const res = await fetch(`${API_BASE}/search?query=${encodeURIComponent(query)}&content_type=${type}`);
             const data = await res.json();
             setResults(data.results || []);
         } catch (err) {
@@ -70,9 +70,14 @@ function App() {
         }
     };
 
-    const handleDownload = async (item) => {
+    const handleDownload = async (item, season = null, episode = null) => {
         try {
-            await fetch(`${API_BASE}/download?query=${encodeURIComponent(item.title)}`, {
+            let url = `${API_BASE}/download?query=${encodeURIComponent(item.title)}`;
+            if (season && episode) {
+                url += `&season=${season}&episode=${episode}`;
+            }
+
+            await fetch(url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' }
             });
@@ -83,9 +88,14 @@ function App() {
         }
     };
 
-    const handleStream = async (item) => {
+    const handleStream = async (item, season = null, episode = null) => {
         try {
-            await fetch(`${API_BASE}/stream?query=${encodeURIComponent(item.title)}`, {
+            let url = `${API_BASE}/stream?query=${encodeURIComponent(item.title)}`;
+            if (season && episode) {
+                url += `&season=${season}&episode=${episode}`;
+            }
+
+            await fetch(url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' }
             });

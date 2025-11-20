@@ -1,0 +1,130 @@
+Starting robust debug script...
+Importing asyncio...
+Importing moviebox_api...
+Failed to import moviebox_api: cannot import name 'MovieBox' from 'moviebox_api' (C:\Users\akshi\AppData\Local\Programs\Python\Python314\Lib\site-packages\moviebox_api\__init__.py)
+Starting robust debug script...
+Importing asyncio...
+Importing moviebox_api...
+Failed to import moviebox_api: No module named 'moviebox_api.session'
+Starting robust debug script...
+Importing asyncio...
+Importing moviebox_api...
+moviebox_api imported successfully
+Initializing Session...
+Searching for 'Breaking Bad'...
+Found item: Breaking Bad S5
+Getting details...
+Details type: <class 'moviebox_api.extractor.models.json.ItemJsonDetailsModel'>
+Details dir: ['QRCode', '__abstractmethods__', '__annotate_func__', '__annotations__', '__annotations_cache__', '__class__', '__class_getitem__', '__class_vars__', '__copy__', '__deepcopy__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__fields__', '__fields_set__', '__firstlineno__', '__format__', '__ge__', '__get_pydantic_core_schema__', '__get_pydantic_json_schema__', '__getattr__', '__getattribute__', '__getstate__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__pretty__', '__private_attributes__', '__pydantic_complete__', '__pydantic_computed_fields__', '__pydantic_core_schema__', '__pydantic_custom_init__', '__pydantic_decorators__', '__pydantic_extra__', '__pydantic_fields__', '__pydantic_fields_set__', '__pydantic_generic_metadata__', '__pydantic_init_subclass__', '__pydantic_on_complete__', '__pydantic_parent_namespace__', '__pydantic_post_init__', '__pydantic_private__', '__pydantic_root_model__', '__pydantic_serializer__', '__pydantic_setattr_handlers__', '__pydantic_validator__', '__reduce__', '__reduce_ex__', '__replace__', '__repr__', '__repr_args__', '__repr_name__', '__repr_recursion__', '__repr_str__', '__rich_repr__', '__setattr__', '__setstate__', '__signature__', '__sizeof__', '__slots__', '__static_attributes__', '__str__', '__subclasshook__', '__weakref__', '_abc_impl', '_calculate_keys', '_copy_and_set_values', '_get_value', '_iter', '_setattr_handler', 'activeSidebar', 'construct', 'copy', 'detailShowSliderNav', 'dict', 'from_orm', 'json', 'midReviewsList', 'model_computed_fields', 'model_config', 'model_construct', 'model_copy', 'model_dump', 'model_dump_json', 'model_extra', 'model_fields', 'model_fields_set', 'model_json_schema', 'model_parametrized_name', 'model_post_init', 'model_rebuild', 'model_validate', 'model_validate_json', 'model_validate_strings', 'nuxt_i18n_meta', 'parse_file', 'parse_obj', 'parse_raw', 'pcShowSliderNav', 'playSourceTabType', 'resData', 'schema', 'schema_json', 'showNotFound', 'update_forward_refs', 'utmSource', 'validate']
+Dict keys: dict_keys(['nuxt_i18n_meta', 'resData', 'utmSource', 'showNotFound', 'midReviewsList', 'pcShowSliderNav', 'detailShowSliderNav', 'QRCode', 'activeSidebar', 'playSourceTabType'])
+Starting robust debug script...
+Importing asyncio...
+Importing moviebox_api...
+moviebox_api imported successfully
+Initializing Session...
+Searching for 'Breaking Bad'...
+Found item: Breaking Bad [Hindi] S5
+Getting details...
+Details type: <class 'moviebox_api.extractor.models.json.ItemJsonDetailsModel'>
+Details dir: ['QRCode', '__abstractmethods__', '__annotate_func__', '__annotations__', '__annotations_cache__', '__class__', '__class_getitem__', '__class_vars__', '__copy__', '__deepcopy__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__fields__', '__fields_set__', '__firstlineno__', '__format__', '__ge__', '__get_pydantic_core_schema__', '__get_pydantic_json_schema__', '__getattr__', '__getattribute__', '__getstate__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__pretty__', '__private_attributes__', '__pydantic_complete__', '__pydantic_computed_fields__', '__pydantic_core_schema__', '__pydantic_custom_init__', '__pydantic_decorators__', '__pydantic_extra__', '__pydantic_fields__', '__pydantic_fields_set__', '__pydantic_generic_metadata__', '__pydantic_init_subclass__', '__pydantic_on_complete__', '__pydantic_parent_namespace__', '__pydantic_post_init__', '__pydantic_private__', '__pydantic_root_model__', '__pydantic_serializer__', '__pydantic_setattr_handlers__', '__pydantic_validator__', '__reduce__', '__reduce_ex__', '__replace__', '__repr__', '__repr_args__', '__repr_name__', '__repr_recursion__', '__repr_str__', '__rich_repr__', '__setattr__', '__setstate__', '__signature__', '__sizeof__', '__slots__', '__static_attributes__', '__str__', '__subclasshook__', '__weakref__', '_abc_impl', '_calculate_keys', '_copy_and_set_values', '_get_value', '_iter', '_setattr_handler', 'activeSidebar', 'construct', 'copy', 'detailShowSliderNav', 'dict', 'from_orm', 'json', 'midReviewsList', 'model_computed_fields', 'model_config', 'model_construct', 'model_copy', 'model_dump', 'model_dump_json', 'model_extra', 'model_fields', 'model_fields_set', 'model_json_schema', 'model_parametrized_name', 'model_post_init', 'model_rebuild', 'model_validate', 'model_validate_json', 'model_validate_strings', 'nuxt_i18n_meta', 'parse_file', 'parse_obj', 'parse_raw', 'pcShowSliderNav', 'playSourceTabType', 'resData', 'schema', 'schema_json', 'showNotFound', 'update_forward_refs', 'utmSource', 'validate']
+resData type: <class 'moviebox_api.extractor.models.json.ResDataModel'>
+resData dir: ['__abstractmethods__', '__annotate_func__', '__annotations__', '__annotations_cache__', '__class__', '__class_getitem__', '__class_vars__', '__copy__', '__deepcopy__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__fields__', '__fields_set__', '__firstlineno__', '__format__', '__ge__', '__get_pydantic_core_schema__', '__get_pydantic_json_schema__', '__getattr__', '__getattribute__', '__getstate__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__pretty__', '__private_attributes__', '__pydantic_complete__', '__pydantic_computed_fields__', '__pydantic_core_schema__', '__pydantic_custom_init__', '__pydantic_decorators__', '__pydantic_extra__', '__pydantic_fields__', '__pydantic_fields_set__', '__pydantic_generic_metadata__', '__pydantic_init_subclass__', '__pydantic_on_complete__', '__pydantic_parent_namespace__', '__pydantic_post_init__', '__pydantic_private__', '__pydantic_root_model__', '__pydantic_serializer__', '__pydantic_setattr_handlers__', '__pydantic_validator__', '__reduce__', '__reduce_ex__', '__replace__', '__repr__', '__repr_args__', '__repr_name__', '__repr_recursion__', '__repr_str__', '__rich_repr__', '__setattr__', '__setstate__', '__signature__', '__sizeof__', '__slots__', '__static_attributes__', '__str__', '__subclasshook__', '__weakref__', '_abc_impl', '_calculate_keys', '_copy_and_set_values', '_get_value', '_iter', '_setattr_handler', 'construct', 'copy', 'dict', 'from_orm', 'json', 'metadata', 'model_computed_fields', 'model_config', 'model_construct', 'model_copy', 'model_dump', 'model_dump_json', 'model_extra', 'model_fields', 'model_fields_set', 'model_json_schema', 'model_parametrized_name', 'model_post_init', 'model_rebuild', 'model_validate', 'model_validate_json', 'model_validate_strings', 'parse_file', 'parse_obj', 'parse_raw', 'postList', 'pubParam', 'referer', 'resource', 'schema', 'schema_json', 'stars', 'subject', 'update_forward_refs', 'url', 'validate', 'validate_url']
+Dict resData keys: dict_keys(['metadata', 'postList', 'pubParam', 'referer', 'resource', 'stars', 'subject', 'url'])
+Starting robust debug script...
+Importing asyncio...
+Importing moviebox_api...
+moviebox_api imported successfully
+Initializing Session...
+Searching for 'Breaking Bad'...
+Error in async execution: 
+Traceback (most recent call last):
+  File "C:\Users\akshi\AppData\Local\Programs\Python\Python314\Lib\site-packages\httpx\_transports\default.py", line 101, in map_httpcore_exceptions
+    yield
+  File "C:\Users\akshi\AppData\Local\Programs\Python\Python314\Lib\site-packages\httpx\_transports\default.py", line 271, in __aiter__
+    async for part in self._httpcore_stream:
+        yield part
+  File "C:\Users\akshi\AppData\Local\Programs\Python\Python314\Lib\site-packages\httpcore\_async\connection_pool.py", line 407, in __aiter__
+    raise exc from None
+  File "C:\Users\akshi\AppData\Local\Programs\Python\Python314\Lib\site-packages\httpcore\_async\connection_pool.py", line 403, in __aiter__
+    async for part in self._stream:
+        yield part
+  File "C:\Users\akshi\AppData\Local\Programs\Python\Python314\Lib\site-packages\httpcore\_async\http11.py", line 342, in __aiter__
+    raise exc
+  File "C:\Users\akshi\AppData\Local\Programs\Python\Python314\Lib\site-packages\httpcore\_async\http11.py", line 334, in __aiter__
+    async for chunk in self._connection._receive_response_body(**kwargs):
+        yield chunk
+  File "C:\Users\akshi\AppData\Local\Programs\Python\Python314\Lib\site-packages\httpcore\_async\http11.py", line 203, in _receive_response_body
+    event = await self._receive_event(timeout=timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\akshi\AppData\Local\Programs\Python\Python314\Lib\site-packages\httpcore\_async\http11.py", line 217, in _receive_event
+    data = await self._network_stream.read(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.READ_NUM_BYTES, timeout=timeout
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\akshi\AppData\Local\Programs\Python\Python314\Lib\site-packages\httpcore\_backends\anyio.py", line 32, in read
+    with map_exceptions(exc_map):
+         ~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\akshi\AppData\Local\Programs\Python\Python314\Lib\contextlib.py", line 162, in __exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\akshi\AppData\Local\Programs\Python\Python314\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
+    raise to_exc(exc) from exc
+httpcore.ReadTimeout
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\akshi\.gemini\antigravity\scratch\moviebox_web_app\robust_debug.py", line 30, in run_debug
+    results = await search.get_content_model()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\akshi\AppData\Local\Programs\Python\Python314\Lib\site-packages\moviebox_api\core.py", line 191, in get_content_model
+    contents = await self.get_content()
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\akshi\AppData\Local\Programs\Python\Python314\Lib\site-packages\moviebox_api\core.py", line 169, in get_content
+    contents = await self.session.post_to_api(url=self._url, json=self._create_payload())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\akshi\AppData\Local\Programs\Python\Python314\Lib\site-packages\moviebox_api\requests.py", line 155, in post_to_api
+    response = await self.post(*args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\akshi\AppData\Local\Programs\Python\Python314\Lib\site-packages\moviebox_api\requests.py", line 145, in post
+    response = await self._client.post(url, json=json, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\akshi\AppData\Local\Programs\Python\Python314\Lib\site-packages\httpx\_client.py", line 1859, in post
+    return await self.request(
+           ^^^^^^^^^^^^^^^^^^^
+    ...<13 lines>...
+    )
+    ^
+  File "C:\Users\akshi\AppData\Local\Programs\Python\Python314\Lib\site-packages\httpx\_client.py", line 1540, in request
+    return await self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\akshi\AppData\Local\Programs\Python\Python314\Lib\site-packages\httpx\_client.py", line 1643, in send
+    raise exc
+  File "C:\Users\akshi\AppData\Local\Programs\Python\Python314\Lib\site-packages\httpx\_client.py", line 1637, in send
+    await response.aread()
+  File "C:\Users\akshi\AppData\Local\Programs\Python\Python314\Lib\site-packages\httpx\_models.py", line 979, in aread
+    self._content = b"".join([part async for part in self.aiter_bytes()])
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\akshi\AppData\Local\Programs\Python\Python314\Lib\site-packages\httpx\_models.py", line 997, in aiter_bytes
+    async for raw_bytes in self.aiter_raw():
+    ...<2 lines>...
+            yield chunk
+  File "C:\Users\akshi\AppData\Local\Programs\Python\Python314\Lib\site-packages\httpx\_models.py", line 1055, in aiter_raw
+    async for raw_stream_bytes in self.stream:
+    ...<2 lines>...
+            yield chunk
+  File "C:\Users\akshi\AppData\Local\Programs\Python\Python314\Lib\site-packages\httpx\_client.py", line 176, in __aiter__
+    async for chunk in self._stream:
+        yield chunk
+  File "C:\Users\akshi\AppData\Local\Programs\Python\Python314\Lib\site-packages\httpx\_transports\default.py", line 270, in __aiter__
+    with map_httpcore_exceptions():
+         ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\akshi\AppData\Local\Programs\Python\Python314\Lib\contextlib.py", line 162, in __exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\akshi\AppData\Local\Programs\Python\Python314\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+httpx.ReadTimeout
+

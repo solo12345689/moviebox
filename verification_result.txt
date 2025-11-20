@@ -1,0 +1,9 @@
+Starting verification...
+Testing search API for Naruto Hindi...
+Status: 200
+Found item: Naruto [Hindi] S1-S2
+Fetching details for ID: f95f0768-47f2-46e0-9f51-b1c025509b29
+Seasons found: 2
+Details keys: dict_keys(['title', 'year', 'plot', 'rating', 'trailer', 'type', 'seasons'])
+First season: {'season_number': 1, 'max_episodes': 220}
+VERIFICATION SUCCESSFUL: Seasons data is present.
