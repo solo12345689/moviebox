@@ -1,0 +1,5 @@
+Starting verification...
+Querying http://localhost:8000/api/search with params: {'query': 'Naruto: Shippuden [Hindi] S1-S15'}
+Found item: Naruto: Shippuden [Hindi] S1-S15
+Detected Type: anime
+SUCCESS: Item correctly identified as series/anime

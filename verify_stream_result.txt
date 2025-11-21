@@ -1,0 +1,6 @@
+Starting stream verification...
+Searching for: Naruto SD: Rock Lee & His Ninja Pals
+Found item: Naruto SD: Rock Lee & His Ninja Pals (ID: 6adeb2c8-9cea-48bc-8b0a-c7bca5ec7d64)
+Requesting stream...
+Stream request successful!
+Response: {'status': 'streaming', 'message': 'Streaming Naruto SD: Rock Lee & His Ninja Pals...'}

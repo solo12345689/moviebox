@@ -1,0 +1,11 @@
+Starting inspection...
+Searching for: Naruto: Shippuden [Hindi] S1-S15
+
+Selected: Naruto: Shippuden [Hindi] S1-S15
+Raw Item Data: {'subjectId': '4681337201345660416', 'subjectType': <SubjectType.TV_SERIES: 2>, 'title': 'Naruto: Shippuden [Hindi] S1-S15', 'description': '', 'releaseDate': datetime.date(2017, 1, 1), 'duration': 0, 'genre': ['Anime', 'Action', 'Adventure'], 'cover': {'url': HttpUrl('https://pbcdnw.aoneroom.com/image/2024/04/15/dc8ca89b3dfef3c3a0eb4ffc563fc226.jpg'), 'width': 1000, 'height': 1426, 'size': 219329, 'format': 'jpg', 'thumbnail': '', 'blurHash': 'eLG[m4tjcE-BERcuMxS#ozS6Awtl$fM|WYNMbxn%rrb0rrTLWXX5WD', 'gif': None, 'avgHueLight': '#867e73', 'avgHueDark': '#666058', 'id': '0'}, 'countryName': 'Japan', 'imdbRatingValue': 8.7, 'trailer': None, 'detailPath': 'naruto-shippuden-hindi-C3uFBDAzOz5', 'stafflist': None, 'appointmentCnt': 0, 'appointmentDate': '', 'corner': 'Hindi', 'subtitles': ['English'], 'ops': {'rid': UUID('3220b66f-cf96-4206-a18f-0ff1086c74e3'), 'trace_id': '0a21ca7617637184421690c06513e731'}, 'hasResource': True, 'imdbRatingCount': 209276}
+
+Detection Attributes:
+is_tv_series: N/A
+category: N/A
+subjectId: 4681337201345660416
+id: N/A

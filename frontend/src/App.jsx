@@ -76,7 +76,6 @@ function App() {
             if (season && episode) {
                 url += `&season=${season}&episode=${episode}`;
             }
-
             await fetch(url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' }
@@ -91,6 +90,15 @@ function App() {
     const handleStream = async (item, season = null, episode = null) => {
         try {
             let url = `${API_BASE}/stream?query=${encodeURIComponent(item.title)}`;
+            if (item.id) {
+                url += `&id=${encodeURIComponent(item.id)}`;
+            }
+            if (item.type) {
+                url += `&content_type=${encodeURIComponent(item.type)}`;
+            } else if (season) {
+                url += `&content_type=series`;
+            }
+
             if (season && episode) {
                 url += `&season=${season}&episode=${episode}`;
             }
@@ -108,10 +116,13 @@ function App() {
 
     return (
         <div className="app">
-            <header style={{ padding: '2rem 0', textAlign: 'center' }}>
-                <div className="container">
-                    <h1 style={{ marginBottom: '0.5rem' }}>MovieBox</h1>
-                    <p style={{ color: 'var(--text-secondary)' }}>Search, Stream, Download</p>
+            <header className="glass-panel" style={{ position: 'sticky', top: 0, zIndex: 50, padding: '1.5rem 0', marginBottom: '2rem', borderBottom: '1px solid var(--border-glass)', borderTop: 'none', borderLeft: 'none', borderRight: 'none' }}>
+                <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <div>
+                        <h1 style={{ fontSize: '2rem', margin: 0 }}>MovieBox</h1>
+                        <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>Cinematic Discovery</p>
+                    </div>
+                    {/* Placeholder for future user menu or settings */}
                 </div>
             </header>
 
@@ -119,11 +130,11 @@ function App() {
                 <SearchBar onSearch={handleSearch} />
 
                 {loading && (
-                    <div style={{ textAlign: 'center', padding: '2rem' }}>
+                    <div style={{ textAlign: 'center', padding: '4rem' }}>
                         <div className="spinner" style={{
-                            width: '40px', height: '40px',
+                            width: '50px', height: '50px',
                             border: '3px solid rgba(255,255,255,0.1)',
-                            borderTopColor: 'var(--accent-primary)',
+                            borderTopColor: 'var(--primary)',
                             borderRadius: '50%',
                             animation: 'spin 1s linear infinite',
                             margin: '0 auto'
@@ -132,9 +143,9 @@ function App() {
                     </div>
                 )}
 
-                <div style={{
+                <div className="movie-card-grid" style={{
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+                    gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
                     gap: '2rem',
                     paddingBottom: '4rem'
                 }}>
@@ -144,38 +155,38 @@ function App() {
                 </div>
 
                 {results.length === 0 && !loading && (
-                    <div style={{ textAlign: 'center', color: 'var(--text-secondary)', marginTop: '4rem' }}>
-                        <p>Start by searching for a movie or TV show.</p>
+                    <div style={{ textAlign: 'center', color: 'var(--text-muted)', marginTop: '4rem', padding: '2rem', border: '1px dashed var(--border-glass)', borderRadius: 'var(--radius-md)' }}>
+                        <p style={{ fontSize: '1.2rem' }}>Start by searching for a movie or TV show.</p>
                     </div>
                 )}
             </main>
 
-            {selectedItem && (
-                <DetailsModal
-                    item={selectedItem}
-                    onClose={() => setSelectedItem(null)}
-                    onDownload={handleDownload}
-                    onStream={handleStream}
-                    progress={downloadProgress}
-                />
-            )}
+            {
+                selectedItem && (
+                    <DetailsModal
+                        item={selectedItem}
+                        onClose={() => setSelectedItem(null)}
+                        onDownload={handleDownload}
+                        onStream={handleStream}
+                        progress={downloadProgress}
+                    />
+                )
+            }
 
-            {detailsLoading && (
-                <div style={{
-                    position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-                    background: 'rgba(0,0,0,0.5)', zIndex: 2000,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center'
-                }}>
-                    <div className="spinner" style={{
-                        width: '40px', height: '40px',
-                        border: '3px solid rgba(255,255,255,0.1)',
-                        borderTopColor: 'var(--accent-primary)',
-                        borderRadius: '50%',
-                        animation: 'spin 1s linear infinite'
-                    }}></div>
-                </div>
-            )}
-        </div>
+            {
+                detailsLoading && (
+                    <div className="modal-backdrop">
+                        <div className="spinner" style={{
+                            width: '50px', height: '50px',
+                            border: '3px solid rgba(255,255,255,0.1)',
+                            borderTopColor: 'var(--primary)',
+                            borderRadius: '50%',
+                            animation: 'spin 1s linear infinite'
+                        }}></div>
+                    </div>
+                )
+            }
+        </div >
     );
 }
 

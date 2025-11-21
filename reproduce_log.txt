@@ -1,0 +1,14 @@
+Starting test...
+Testing search consistency...
+
+--- Attempt 1: Searching for 'Naruto' ---
+Status Code: 200
+Duration: 3.84s
+Results count: 22
+First result: Naruto [Hindi] S1-S2 (anime)
+
+--- Attempt 2: Searching for 'Naruto' ---
+Status Code: 200
+Duration: 2.95s
+Results count: 22
+First result: Naruto [Hindi] S1-S2 (anime)

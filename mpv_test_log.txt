@@ -1,0 +1,11 @@
+Starting mpv test...
+Searching for: Naruto SD: Rock Lee & His Ninja Pals
+Resolved URL: https://valiw.hakunaymatata.com/resource/4ae7bbb55bf1e2d05edad5d95f7d28c0.mp4?auth_key=1763713671-0-0-cfe3d9a3dd3bcaa6d4284bee649959f0
+UA: Mozilla/5.0 (X11; Linux x86_64; rv:137.0) Gecko/20100101 Firefox/137.0
+Referer: https://fmoviesunblocked.net/
+
+Test 1: UA + Referer
+Test 1 SUCCESS
+
+Test 2: UA + Referer + Origin
+Test 2 SUCCESS
