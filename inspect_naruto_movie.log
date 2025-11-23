@@ -1,0 +1,35 @@
+Searching for: Naruto the Movie: Ninja Clash in the Land of Snow
+
+Title: Naruto the Movie: Ninja Clash in the Land of Snow [Hindi]
+SubjectType: 1
+Is TV Series: N/A
+Category: N/A
+Genre: ['Anime', 'Action', 'Adventure']
+
+Raw Attributes:
+appointmentCnt: 0
+appointmentDate: 
+corner: Hindi
+countryName: Japan
+cover: url=HttpUrl('https://pbcdnw.aoneroom.com/image/2025/07/01/d2df4b8477e665b24a873ef2e755358a.jpg') width=1280 height=1795 size=381731 format='jpg' thumbnail='' blurHash='eMG8[?X6b|xVW.4VaJrXRkWmxVRk%ftRIUQ-NGRqnlt8.7oKW8R,o#' gif=None avgHueLight='#7d7283' avgHueDark='#625d66' id='0'
+description: 
+detailPath: naruto-the-movie-ninja-clash-in-the-land-of-snow-hindi-EgYncbT18V8
+duration: 4920
+genre: ['Anime', 'Action', 'Adventure']
+hasResource: True
+imdbRatingCount: 9129
+imdbRatingValue: 6.6
+model_computed_fields: {}
+model_config: {}
+model_extra: None
+model_fields: {'subjectId': FieldInfo(annotation=str, required=True), 'subjectType': FieldInfo(annotation=SubjectType, required=True), 'title': FieldInfo(annotation=str, required=True), 'description': FieldInfo(annotation=str, required=True), 'releaseDate': FieldInfo(annotation=date, required=True), 'duration': FieldInfo(annotation=int, required=True), 'genre': FieldInfo(annotation=list[str], required=True), 'cover': FieldInfo(annotation=ContentImageModel, required=True), 'countryName': FieldInfo(annotation=str, required=True), 'imdbRatingValue': FieldInfo(annotation=float, required=True), 'trailer': FieldInfo(annotation=Union[str, NoneType], required=False, default=None), 'detailPath': FieldInfo(annotation=str, required=True), 'stafflist': FieldInfo(annotation=Union[list, NoneType], required=False, default=None), 'appointmentCnt': FieldInfo(annotation=int, required=True), 'appointmentDate': FieldInfo(annotation=str, required=True), 'corner': FieldInfo(annotation=str, required=True), 'subtitles': FieldInfo(annotation=list[str], required=True), 'ops': FieldInfo(annotation=OPS, required=True), 'hasResource': FieldInfo(annotation=bool, required=True), 'imdbRatingCount': FieldInfo(annotation=Union[int, NoneType], required=False, default=None)}
+model_fields_set: {'genre', 'countryName', 'ops', 'releaseDate', 'trailer', 'title', 'description', 'appointmentDate', 'subjectType', 'detailPath', 'appointmentCnt', 'imdbRatingValue', 'duration', 'subtitles', 'subjectId', 'cover', 'hasResource', 'imdbRatingCount', 'corner'}
+ops: rid=UUID('5b27bcaa-29fe-4f2b-8ac1-4394bd18c3af') trace_id='0a21f9f6176390058411703f2d567a57'
+page_url: /detail/naruto-the-movie-ninja-clash-in-the-land-of-snow-hindi-EgYncbT18V8?id=7487762236816477152
+releaseDate: 2007-06-06
+stafflist: None
+subjectId: 7487762236816477152
+subjectType: 1
+subtitles: ['English']
+title: Naruto the Movie: Ninja Clash in the Land of Snow [Hindi]
+trailer: None

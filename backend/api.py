@@ -8,11 +8,57 @@ from moviebox_api.download import (
     DownloadableTVSeriesFilesDetail,
     resolve_media_file_to_be_downloaded
 )
+from moviebox_api.extractor._core import ItemJsonDetailsModel
+from moviebox_api.extractor.models.json import SubjectModel, SubjectTrailerModel
+from typing import Optional, Union, get_args, get_origin
+import pydantic
 import asyncio
 import uuid
 import json
 
+# --- Monkeypatch for Pydantic Validation Error ---
+def unwrap_annotation(annotation):
+    origin = get_origin(annotation)
+    if origin is Union:
+        args = get_args(annotation)
+        for arg in args:
+            if isinstance(arg, type) and arg is not type(None):
+                return arg
+    return annotation
+
+def patch_moviebox_models():
+    try:
+        # Patch SubjectModel directly since we imported it
+        if hasattr(SubjectModel, 'model_fields') and 'trailer' in SubjectModel.model_fields:
+            # Replace FieldInfo object to allow None
+            from pydantic.fields import FieldInfo
+            SubjectModel.model_fields['trailer'] = FieldInfo(annotation=Optional[Union[dict, SubjectTrailerModel]], default=None)
+            
+            if hasattr(SubjectModel, 'model_rebuild'):
+                SubjectModel.model_rebuild(force=True)
+            
+            # Rebuild parents
+            # We need to find ResDataModel to rebuild it
+            if 'resData' in ItemJsonDetailsModel.model_fields:
+                ResDataModel = unwrap_annotation(ItemJsonDetailsModel.model_fields['resData'].annotation)
+                if hasattr(ResDataModel, 'model_rebuild'):
+                    ResDataModel.model_rebuild(force=True)
+            
+            if hasattr(ItemJsonDetailsModel, 'model_rebuild'):
+                ItemJsonDetailsModel.model_rebuild(force=True)
+                
+            print("Successfully patched SubjectModel.trailer and rebuilt models")
+    except Exception as e:
+        print(f"Failed to patch models: {e}")
+        import traceback
+        traceback.print_exc()
+
+# Apply patch immediately
+patch_moviebox_models()
+
 router = APIRouter()
+
+# Global session
 
 # Global session
 session = Session()
@@ -106,7 +152,10 @@ async def search(query: str, page: int = 1, content_type: str = "all"):
                     genres = [str(g).lower() for g in genres]
                 
                 if 'anime' in category or 'anime' in genres:
-                    item_type = "anime"
+                    if item_type == "movie":
+                        item_type = "anime_movie"
+                    else:
+                        item_type = "anime"
                 elif 'series' in category or 'tv' in category:
                     item_type = "series"
                 
@@ -361,7 +410,7 @@ async def stream(query: str, id: Optional[str] = None, content_type: str = "all"
     try:
         # 1. Determine SubjectType
         subject_type = SubjectType.ALL
-        if content_type.lower() == "movie":
+        if content_type.lower() == "movie" or content_type.lower() == "anime_movie":
             subject_type = SubjectType.MOVIES
         elif content_type.lower() == "series":
             subject_type = SubjectType.TV_SERIES

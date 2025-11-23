@@ -1,0 +1,29 @@
+Searching for: Inari Kon Kon Koi Iroha
+
+Title: Inari, Konkon, Koi Iroha
+SubjectType: 2
+Error: 1 validation error for ItemJsonDetailsModel
+resData.subject.trailer
+  Input should be a valid dictionary or instance of SubjectTrailerModel [type=model_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+Traceback (most recent call last):
+  File "C:\Users\akshi\.gemini\antigravity\scratch\moviebox_web_app\inspect_inari.py", line 27, in inspect
+    details = await details_provider.get_content_model()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\akshi\AppData\Local\Programs\Python\Python314\Lib\site-packages\moviebox_api\core.py", line 624, in get_content_model
+    modelled_extracted_content = await self.get_json_details_extractor_model()
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\akshi\AppData\Local\Programs\Python\Python314\Lib\site-packages\moviebox_api\core.py", line 647, in get_json_details_extractor_model
+    return JsonDetailsExtractorModel(html_contents)
+  File "C:\Users\akshi\AppData\Local\Programs\Python\Python314\Lib\site-packages\moviebox_api\extractor\_core.py", line 416, in __init__
+    self.details: ItemJsonDetailsModel = self.extract(content)
+                                         ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\akshi\AppData\Local\Programs\Python\Python314\Lib\site-packages\moviebox_api\extractor\_core.py", line 432, in extract
+    return ItemJsonDetailsModel(**contents)
+  File "C:\Users\akshi\AppData\Local\Programs\Python\Python314\Lib\site-packages\pydantic\main.py", line 250, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 1 validation error for ItemJsonDetailsModel
+resData.subject.trailer
+  Input should be a valid dictionary or instance of SubjectTrailerModel [type=model_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.12/v/model_type
+
