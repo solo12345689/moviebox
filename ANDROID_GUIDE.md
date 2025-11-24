@@ -1,6 +1,6 @@
 # How to Build the Android App (APK)
 
-Since I cannot generate the APK file directly in this environment, you will need to perform the final build steps on your machine. I have already prepared the project for you.
+
 
 ## Prerequisites
 
