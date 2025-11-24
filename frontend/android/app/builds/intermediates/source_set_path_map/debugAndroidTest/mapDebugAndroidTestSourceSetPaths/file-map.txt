@@ -1,0 +1,6 @@
+com.moviebox.app.test.app-androidTest-0 C:\Users\akshi\.gemini\antigravity\scratch\moviebox_web_app\frontend\android\app\build\generated\res\resValues\androidTest\debug
+com.moviebox.app.test.app-mergeDebugAndroidTestResources-1 C:\Users\akshi\.gemini\antigravity\scratch\moviebox_web_app\frontend\android\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\merged.dir
+com.moviebox.app.test.app-mergeDebugAndroidTestResources-2 C:\Users\akshi\.gemini\antigravity\scratch\moviebox_web_app\frontend\android\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\stripped.dir
+com.moviebox.app.test.app-debugAndroidTest-3 C:\Users\akshi\.gemini\antigravity\scratch\moviebox_web_app\frontend\android\app\build\intermediates\merged_res\debugAndroidTest\mergeDebugAndroidTestResources
+com.moviebox.app.test.app-core-1.6.1-4 C:\Users\akshi\.gradle\caches\8.11.1\transforms\0dfb94e8e9f7930d0d4cbce98a17f1aa\transformed\core-1.6.1\res
+com.moviebox.app.test.app-tracing-1.2.0-5 C:\Users\akshi\.gradle\caches\8.11.1\transforms\640934fa0c2deb02232fb188bbe4540c\transformed\tracing-1.2.0\res
