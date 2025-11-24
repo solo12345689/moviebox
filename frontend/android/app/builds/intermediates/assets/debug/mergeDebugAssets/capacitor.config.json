@@ -1,6 +1,0 @@
-{
-	"appId": "com.moviebox.app",
-	"appName": "MovieBox",
-	"webDir": "dist",
-	"bundledWebRuntime": false
-}

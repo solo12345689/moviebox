@@ -1,3 +1,0 @@
-com.moviebox.app.test
-style WhiteBackgroundDialogTheme
-style WhiteBackgroundTheme
