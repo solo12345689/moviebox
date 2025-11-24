@@ -65,7 +65,7 @@ start_backend.bat
 
 *Or manually:*
 ```bash
-cd backend
+cd 
 python -m uvicorn main:app --reload --port 8000
 ```
 
