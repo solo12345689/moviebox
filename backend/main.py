@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .api import router as api_router
+from api import router as api_router
 
 app = FastAPI(title="MovieBox Web App", description="API for MovieBox Web App")
 
