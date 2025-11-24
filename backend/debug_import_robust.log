@@ -1,0 +1,4 @@
+Starting import test...
+CWD: C:\Users\akshi\.gemini\antigravity\scratch\moviebox_web_app\backend
+Files: ['api.py', 'debug_import.log', 'debug_import.py', 'debug_import_robust.log', 'debug_import_robust.py', 'explore_api.py', 'main.py', 'requirements.txt', 'test_api.py', 'test_data.py', 'test_poster.py', 'test_stdout.txt', 'verify_backend.py', '__init__.py', '__pycache__']
+Successfully imported main

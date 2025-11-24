@@ -1,3 +1,5 @@
 fastapi
 uvicorn
 moviebox-api
+pydantic
+requests
