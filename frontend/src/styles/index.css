@@ -66,6 +66,7 @@ h1 {
   font-size: 3.5rem;
   background: linear-gradient(to bottom right, #fff, #a5b4fc);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   line-height: 1.1;
 }
@@ -236,6 +237,7 @@ h1 {
   font-size: 3.5rem;
   background: linear-gradient(to bottom right, #fff, #a5b4fc);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   line-height: 1.1;
 }

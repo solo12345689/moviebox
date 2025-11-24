@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">MovieBox</string>
+    <string name="title_activity_main">MovieBox</string>
+    <string name="package_name">com.moviebox.app</string>
+    <string name="custom_url_scheme">com.moviebox.app</string>
+</resources>

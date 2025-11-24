@@ -1,3 +1,3 @@
 @echo off
-cd backend
-python -m uvicorn main:app --reload --port 8000
+cd /d "%~dp0"
+python -m uvicorn backend.main:app --reload --port 8000

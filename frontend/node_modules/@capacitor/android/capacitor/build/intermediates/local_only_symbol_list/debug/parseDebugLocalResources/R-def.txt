@@ -1,0 +1,12 @@
+R_DEF: Internal format may change without notice
+local
+color colorAccent
+color colorPrimary
+color colorPrimaryDark
+id textView
+id webview
+layout bridge_layout_main
+layout capacitor_bridge_layout_main
+layout no_webview
+string no_webview_text
+style AppTheme.NoActionBar

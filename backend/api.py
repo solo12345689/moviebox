@@ -406,7 +406,7 @@ async def download(query: str, season: Optional[int] = None, episode: Optional[i
     return {"status": "started", "message": f"Download started for {query}"}
 
 @router.post("/stream")
-async def stream(query: str, id: Optional[str] = None, content_type: str = "all", season: Optional[int] = None, episode: Optional[int] = None):
+async def stream(query: str, id: Optional[str] = None, content_type: str = "all", season: Optional[int] = None, episode: Optional[int] = None, mode: str = "play"):
     try:
         # 1. Determine SubjectType
         subject_type = SubjectType.ALL
@@ -455,6 +455,10 @@ async def stream(query: str, id: Optional[str] = None, content_type: str = "all"
              
         if not media_file or not media_file.url:
             raise HTTPException(status_code=404, detail="Playable stream URL not found")
+
+        # Return URL if mode is 'url'
+        if mode == "url":
+            return {"status": "success", "url": str(media_file.url), "title": target_item.title}
 
         # 5. Launch MPV
         import subprocess

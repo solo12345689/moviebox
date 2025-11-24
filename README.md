@@ -60,8 +60,13 @@ You need to run both the backend and frontend servers.
 From the project root (`moviebox_web_app`), run:
 
 ```bash
-cd 
-python -m uvicorn backend.main:app --reload --
+start_backend.bat
+```
+
+*Or manually:*
+```bash
+cd backend
+python -m uvicorn main:app --reload --port 8000
 ```
 
 The backend API will be available at `http://localhost:8000`.

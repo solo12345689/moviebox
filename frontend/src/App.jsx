@@ -103,11 +103,38 @@ function App() {
                 url += `&season=${season}&episode=${episode}`;
             }
 
-            await fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' }
-            });
-            alert(`Stream launching for ${item.title}`);
+            // Check for Android/Capacitor
+            const isAndroid = /Android/i.test(navigator.userAgent) && window.Capacitor;
+
+            if (isAndroid) {
+                // Request URL mode
+                url += `&mode=url`;
+                const res = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const data = await res.json();
+
+                if (data.status === 'success' && data.url) {
+                    // Construct absolute URL for the intent
+                    // MPV needs a direct link. The backend returns the resolved URL (e.g. magnet or http).
+                    // If it's a magnet link, MPV handles it.
+                    // If it's http, MPV handles it.
+
+                    const streamUrl = data.url;
+                    const intentUrl = `intent:${streamUrl}#Intent;package=is.xyz.mpv;type=video/*;scheme=http;end`;
+                    window.location.href = intentUrl;
+                } else {
+                    alert("Failed to resolve stream URL for Android");
+                }
+            } else {
+                // Default behavior (launch on server)
+                await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                alert(`Stream launching for ${item.title}`);
+            }
         } catch (err) {
             console.error("Stream failed", err);
             alert("Failed to start stream");
