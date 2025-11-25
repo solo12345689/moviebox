@@ -7,7 +7,7 @@ app = FastAPI(title="MovieBox Web App", description="API for MovieBox Web App")
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # Vite default port
+    allow_origins=["*"],  # Allow all origins for mobile app access
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
