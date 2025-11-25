@@ -97,6 +97,36 @@ if hasattr(session, '_client') and hasattr(session._client, 'headers'):
     })
     print(f"[BYPASS] Using residential IP: {residential_ip}")
 
+# Monkeypatch httpx Response to handle encoding errors
+import httpx
+
+original_text = httpx.Response.text
+
+@property
+def patched_text(self):
+    """
+    Patched text property that handles encoding errors gracefully.
+    Tries multiple encodings and uses 'replace' error handling.
+    """
+    if not hasattr(self, '_content'):
+        return ""
+    
+    # Try multiple encodings
+    encodings_to_try = ['utf-8', 'latin-1', 'cp1252', 'iso-8859-1']
+    
+    for encoding in encodings_to_try:
+        try:
+            return self._content.decode(encoding, errors='replace')
+        except (UnicodeDecodeError, AttributeError):
+            continue
+    
+    # Fallback: decode with utf-8 and replace errors
+    return self._content.decode('utf-8', errors='replace')
+
+# Apply the monkeypatch
+httpx.Response.text = patched_text
+print("[BYPASS] Applied encoding error handling monkeypatch")
+
 # Simple in-memory cache: {uuid: item_object}
 search_cache = {}
 
