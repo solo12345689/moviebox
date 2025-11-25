@@ -253,6 +253,7 @@ function App() {
                         onDownload={handleDownload}
                         onStream={handleStream}
                         progress={downloadProgress}
+                        serverMode={serverMode}
                     />
                 )
             }
