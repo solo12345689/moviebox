@@ -79,21 +79,31 @@ if hasattr(session, '_client') and hasattr(session._client, 'headers'):
     # Using common residential IP ranges
     residential_ip = f"{random.choice([49, 103, 106, 117, 122])}.{random.randint(1, 255)}.{random.randint(1, 255)}.{random.randint(1, 255)}"
     
+    # Choose a consistent User-Agent for this session
+    chosen_ua = random.choice(mobile_user_agents)
+    
+    # Extract Chrome version from UA for Sec-CH-UA headers
+    chrome_version = "112" if "Chrome/112" in chosen_ua else "111"
+    
     session._client.headers.update({
-        'User-Agent': random.choice(mobile_user_agents),
+        'User-Agent': chosen_ua,
         'X-Forwarded-For': residential_ip,
         'X-Real-IP': residential_ip,
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+        'Accept': 'application/json, text/plain, */*',
         'Accept-Language': 'en-US,en;q=0.9',
         'Accept-Encoding': 'gzip, deflate, br',
+        'Origin': 'https://www.moviebox.com',
+        'Referer': 'https://www.moviebox.com/',
         'DNT': '1',
         'Connection': 'keep-alive',
-        'Upgrade-Insecure-Requests': '1',
-        'Sec-Fetch-Dest': 'document',
-        'Sec-Fetch-Mode': 'navigate',
-        'Sec-Fetch-Site': 'none',
-        'Sec-Fetch-User': '?1',
-        'Cache-Control': 'max-age=0'
+        'Sec-Fetch-Dest': 'empty',
+        'Sec-Fetch-Mode': 'cors',
+        'Sec-Fetch-Site': 'same-site',
+        'Sec-CH-UA': f'"Chromium";v="{chrome_version}", "Google Chrome";v="{chrome_version}", "Not-A.Brand";v="24"',
+        'Sec-CH-UA-Mobile': '?1',
+        'Sec-CH-UA-Platform': '"Android"',
+        'Cache-Control': 'no-cache',
+        'Pragma': 'no-cache'
     })
     print(f"[BYPASS] Using residential IP: {residential_ip}")
     
