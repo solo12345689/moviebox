@@ -1,4 +1,5 @@
-from fastapi import APIRouter, HTTPException, Query, WebSocket, WebSocketDisconnect
+from fastapi import APIRouter, HTTPException, Query, WebSocket, WebSocketDisconnect, Response
+from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 from typing import List, Optional, Any
 from moviebox_api import Session, Search, SubjectType, MovieAuto, TVSeriesDetails
@@ -458,7 +459,11 @@ async def stream(query: str, id: Optional[str] = None, content_type: str = "all"
 
         # Return URL if mode is 'url'
         if mode == "url":
-            return {"status": "success", "url": str(media_file.url), "title": target_item.title}
+            # Return a proxy URL that routes through our backend
+            # This bypasses 403 Forbidden errors from streaming providers
+            from urllib.parse import quote
+            proxy_url = f"/api/proxy-stream?url={quote(str(media_file.url))}"
+            return {"status": "success", "url": proxy_url, "title": target_item.title, "direct_url": str(media_file.url)}
 
         # 5. Launch MPV
         import subprocess
@@ -528,3 +533,52 @@ async def stream(query: str, id: Optional[str] = None, content_type: str = "all"
             return {"status": "error", "message": str(e), "details": error_details}
         
         raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/proxy-stream")
+async def proxy_stream(url: str):
+    """
+    Proxy endpoint that streams video content with proper headers.
+    This bypasses 403 Forbidden errors from streaming providers.
+    """
+    try:
+        import httpx
+        
+        # Extract headers from session
+        headers = {}
+        if hasattr(session, '_headers'):
+            headers.update(session._headers)
+        if hasattr(session, '_client') and hasattr(session._client, 'headers'):
+            headers.update(session._client.headers)
+        
+        # Ensure we have a User-Agent
+        if 'User-Agent' not in headers and 'user-agent' not in headers:
+            headers['User-Agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+        
+        # Stream the content from the source
+        async with httpx.AsyncClient(follow_redirects=True, timeout=30.0) as client:
+            async with client.stream('GET', url, headers=headers) as response:
+                if response.status_code != 200:
+                    raise HTTPException(
+                        status_code=response.status_code,
+                        detail=f"Failed to fetch stream: {response.status_code}"
+                    )
+                
+                # Get content type from response
+                content_type = response.headers.get('content-type', 'video/mp4')
+                
+                # Stream the response
+                async def generate():
+                    async for chunk in response.aiter_bytes(chunk_size=8192):
+                        yield chunk
+                
+                return StreamingResponse(
+                    generate(),
+                    media_type=content_type,
+                    headers={
+                        'Accept-Ranges': 'bytes',
+                        'Content-Type': content_type,
+                    }
+                )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Proxy stream error: {str(e)}")
+

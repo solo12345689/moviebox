@@ -145,7 +145,9 @@ function App() {
                 const data = await res.json();
 
                 if (data.status === 'success' && data.url) {
-                    const streamUrl = data.url;
+                    // The backend returns a relative proxy URL like "/api/proxy-stream?url=..."
+                    // We need to construct the full URL using API_BASE
+                    const streamUrl = data.url.startsWith('http') ? data.url : `${API_BASE}${data.url}`;
                     const intentUrl = `intent:${streamUrl}#Intent;package=is.xyz.mpv;type=video/*;scheme=http;end`;
                     window.location.href = intentUrl;
                 } else if (data.status === 'error') {
