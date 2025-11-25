@@ -96,36 +96,32 @@ if hasattr(session, '_client') and hasattr(session._client, 'headers'):
         'Cache-Control': 'max-age=0'
     })
     print(f"[BYPASS] Using residential IP: {residential_ip}")
-
-# Monkeypatch httpx Response to handle encoding errors
-import httpx
-
-original_text = httpx.Response.text
-
-@property
-def patched_text(self):
-    """
-    Patched text property that handles encoding errors gracefully.
-    Tries multiple encodings and uses 'replace' error handling.
-    """
-    if not hasattr(self, '_content'):
-        return ""
     
-    # Try multiple encodings
-    encodings_to_try = ['utf-8', 'latin-1', 'cp1252', 'iso-8859-1']
-    
-    for encoding in encodings_to_try:
-        try:
-            return self._content.decode(encoding, errors='replace')
-        except (UnicodeDecodeError, AttributeError):
-            continue
-    
-    # Fallback: decode with utf-8 and replace errors
-    return self._content.decode('utf-8', errors='replace')
-
-# Apply the monkeypatch
-httpx.Response.text = patched_text
-print("[BYPASS] Applied encoding error handling monkeypatch")
+    # Wrap the client's request method to handle encoding errors
+    if hasattr(session, '_client'):
+        original_request = session._client.request
+        
+        async def patched_request(*args, **kwargs):
+            try:
+                response = await original_request(*args, **kwargs)
+                
+                # If response has content, try to decode it with error handling
+                if hasattr(response, '_content') and response._content:
+                    try:
+                        # Try to decode and re-encode to catch encoding errors early
+                        _ = response._content.decode('utf-8')
+                    except UnicodeDecodeError:
+                        # Replace problematic bytes
+                        response._content = response._content.decode('utf-8', errors='replace').encode('utf-8')
+                        print(f"[ENCODING FIX] Replaced problematic bytes in response")
+                
+                return response
+            except Exception as e:
+                print(f"[REQUEST ERROR] {e}")
+                raise
+        
+        session._client.request = patched_request
+        print("[BYPASS] Applied request-level encoding fix")
 
 # Simple in-memory cache: {uuid: item_object}
 search_cache = {}
@@ -263,7 +259,17 @@ async def search(query: str, page: int = 1, content_type: str = "all"):
                 })
         
         return {"results": items}
+    except UnicodeDecodeError as e:
+        import traceback
+        error_details = traceback.format_exc()
+        print(f"[ENCODING ERROR IN SEARCH] {e}")
+        print(f"Traceback:\n{error_details}")
+        raise HTTPException(status_code=500, detail=f"Encoding error: {str(e)}")
     except Exception as e:
+        import traceback
+        error_details = traceback.format_exc()
+        print(f"[SEARCH ERROR] {e}")
+        print(f"Traceback:\n{error_details}")
         raise HTTPException(status_code=500, detail=str(e))
 
 async def warmup_session():
