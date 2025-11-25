@@ -59,79 +59,8 @@ patch_moviebox_models()
 
 router = APIRouter()
 
-# Global session with bypass headers
-import random
-
-# Create session with anti-detection headers
+# Global session
 session = Session()
-
-# Add residential-looking headers to bypass cloud IP detection
-if hasattr(session, '_client') and hasattr(session._client, 'headers'):
-    # Realistic mobile User-Agents (rotate between them)
-    mobile_user_agents = [
-        'Mozilla/5.0 (Linux; Android 13; SM-S908B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Mobile Safari/537.36',
-        'Mozilla/5.0 (Linux; Android 12; SM-G998B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Mobile Safari/537.36',
-        'Mozilla/5.0 (iPhone; CPU iPhone OS 16_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.3 Mobile/15E148 Safari/604.1',
-        'Mozilla/5.0 (Linux; Android 11; Pixel 5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Mobile Safari/537.36'
-    ]
-    
-    # Generate a random residential IP (for X-Forwarded-For)
-    # Using common residential IP ranges
-    residential_ip = f"{random.choice([49, 103, 106, 117, 122])}.{random.randint(1, 255)}.{random.randint(1, 255)}.{random.randint(1, 255)}"
-    
-    # Choose a consistent User-Agent for this session
-    chosen_ua = random.choice(mobile_user_agents)
-    
-    # Extract Chrome version from UA for Sec-CH-UA headers
-    chrome_version = "112" if "Chrome/112" in chosen_ua else "111"
-    
-    session._client.headers.update({
-        'User-Agent': chosen_ua,
-        'X-Forwarded-For': residential_ip,
-        'X-Real-IP': residential_ip,
-        'Accept': 'application/json, text/plain, */*',
-        'Accept-Language': 'en-US,en;q=0.9',
-        'Accept-Encoding': 'gzip, deflate, br',
-        'Origin': 'https://www.moviebox.com',
-        'Referer': 'https://www.moviebox.com/',
-        'DNT': '1',
-        'Connection': 'keep-alive',
-        'Sec-Fetch-Dest': 'empty',
-        'Sec-Fetch-Mode': 'cors',
-        'Sec-Fetch-Site': 'same-site',
-        'Sec-CH-UA': f'"Chromium";v="{chrome_version}", "Google Chrome";v="{chrome_version}", "Not-A.Brand";v="24"',
-        'Sec-CH-UA-Mobile': '?1',
-        'Sec-CH-UA-Platform': '"Android"',
-        'Cache-Control': 'no-cache',
-        'Pragma': 'no-cache'
-    })
-    print(f"[BYPASS] Using residential IP: {residential_ip}")
-    
-    # Wrap the client's request method to handle encoding errors
-    if hasattr(session, '_client'):
-        original_request = session._client.request
-        
-        async def patched_request(*args, **kwargs):
-            try:
-                response = await original_request(*args, **kwargs)
-                
-                # If response has content, try to decode it with error handling
-                if hasattr(response, '_content') and response._content:
-                    try:
-                        # Try to decode and re-encode to catch encoding errors early
-                        _ = response._content.decode('utf-8')
-                    except UnicodeDecodeError:
-                        # Replace problematic bytes
-                        response._content = response._content.decode('utf-8', errors='replace').encode('utf-8')
-                        print(f"[ENCODING FIX] Replaced problematic bytes in response")
-                
-                return response
-            except Exception as e:
-                print(f"[REQUEST ERROR] {e}")
-                raise
-        
-        session._client.request = patched_request
-        print("[BYPASS] Applied request-level encoding fix")
 
 # Simple in-memory cache: {uuid: item_object}
 search_cache = {}
