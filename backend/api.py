@@ -474,18 +474,36 @@ async def stream(query: str, id: Optional[str] = None, content_type: str = "all"
         if not target_item:
             target_item = results.items[0]
             
-        # 4. Resolve Media File
+        # 4. Resolve Media File with encoding error handling
         media_file = None
-        if season is not None and episode is not None:
-             # TV Series / Anime
-             files_provider = DownloadableTVSeriesFilesDetail(session=session, item=target_item)
-             files_metadata = await files_provider.get_content_model(season=season, episode=episode)
-             media_file = resolve_media_file_to_be_downloaded("BEST", files_metadata)
-        else:
-             # Movie
-             files_provider = DownloadableMovieFilesDetail(session=session, item=target_item)
-             files_metadata = await files_provider.get_content_model()
-             media_file = resolve_media_file_to_be_downloaded("BEST", files_metadata)
+        quality_options = ["BEST", "WORST", "720P", "480P", "360P"]
+        
+        for quality in quality_options:
+            try:
+                if season is not None and episode is not None:
+                    # TV Series / Anime
+                    files_provider = DownloadableTVSeriesFilesDetail(session=session, item=target_item)
+                    files_metadata = await files_provider.get_content_model(season=season, episode=episode)
+                    media_file = resolve_media_file_to_be_downloaded(quality, files_metadata)
+                else:
+                    # Movie
+                    files_provider = DownloadableMovieFilesDetail(session=session, item=target_item)
+                    files_metadata = await files_provider.get_content_model()
+                    media_file = resolve_media_file_to_be_downloaded(quality, files_metadata)
+                
+                # If we got a media file, break out of the loop
+                if media_file and media_file.url:
+                    print(f"[SUCCESS] Resolved media file with quality: {quality}")
+                    break
+                    
+            except UnicodeDecodeError as e:
+                print(f"[ENCODING ERROR] Quality {quality} failed with encoding error: {e}")
+                # Try next quality option
+                continue
+            except Exception as e:
+                print(f"[ERROR] Quality {quality} failed: {e}")
+                # Try next quality option
+                continue
              
         if not media_file or not media_file.url:
             raise HTTPException(status_code=404, detail="Playable stream URL not found")
