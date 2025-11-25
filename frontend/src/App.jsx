@@ -148,6 +148,10 @@ function App() {
                     const streamUrl = data.url;
                     const intentUrl = `intent:${streamUrl}#Intent;package=is.xyz.mpv;type=video/*;scheme=http;end`;
                     window.location.href = intentUrl;
+                } else if (data.status === 'error') {
+                    // Show detailed error message from backend
+                    alert(`Stream Error: ${data.message}\n\nPlease check if:\n1. Backend server is running\n2. Content is available\n3. Season/Episode exists`);
+                    console.error("Stream error details:", data.details);
                 } else {
                     alert("Failed to resolve stream URL for Android");
                 }

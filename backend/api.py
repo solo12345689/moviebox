@@ -516,7 +516,15 @@ async def stream(query: str, id: Optional[str] = None, content_type: str = "all"
     except HTTPException:
         raise
     except Exception as e:
+        import traceback
+        error_details = traceback.format_exc()
         with open("stream_error.log", "a") as f:
             f.write(f"Stream error: {e}\n")
+            f.write(f"Traceback:\n{error_details}\n")
         print(f"Stream error: {e}")
+        
+        # If mode is 'url', return a JSON error response instead of raising
+        if mode == "url":
+            return {"status": "error", "message": str(e), "details": error_details}
+        
         raise HTTPException(status_code=500, detail=str(e))
