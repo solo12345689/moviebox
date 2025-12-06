@@ -103,6 +103,7 @@ const DetailsModal = ({ item, onClose, onDownload, onStream, progress, serverMod
                     </p>
 
                     <div style={{ marginTop: 'auto' }}>
+
                         {(item.type === 'series' || item.type === 'anime') && (
                             <div style={{ marginBottom: '2rem', background: 'var(--bg-glass-light)', padding: '1.5rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-glass)' }}>
                                 <h3 style={{ marginBottom: '1rem', fontSize: '1.1rem' }}>Select Episode</h3>
@@ -154,58 +155,33 @@ const DetailsModal = ({ item, onClose, onDownload, onStream, progress, serverMod
 
                         {/* Show buttons only if serverMode is 'local' */}
                         {serverMode === 'local' ? (
-                            progress ? (
-                                <div style={{ marginBottom: '1rem', background: 'var(--bg-glass-light)', padding: '1.5rem', borderRadius: 'var(--radius-md)' }}>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontSize: '0.9rem', color: 'var(--text-main)' }}>
-                                        <span>Downloading...</span>
-                                        <span>{typeof progress === 'object' ? (progress.percentage || '0%') : progress}</span>
-                                    </div>
-                                    <div style={{ width: '100%', height: '6px', background: 'rgba(255,255,255,0.1)', borderRadius: '3px', overflow: 'hidden' }}>
-                                        <div style={{
-                                            width: typeof progress === 'object' ? (progress.percentage || '0%') : '0%',
-                                            height: '100%',
-                                            background: 'var(--primary)',
-                                            transition: 'width 0.3s ease'
-                                        }}></div>
-                                    </div>
-                                    {typeof progress === 'object' && (
-                                        <div style={{ marginTop: '0.5rem', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                                            {progress.speed && <span>{progress.speed} </span>}
-                                            {progress.eta && <span>• ETA: {progress.eta}</span>}
-                                        </div>
-                                    )}
-                                </div>
-                            ) : (
-                                <div style={{ display: 'flex', gap: '1rem' }}>
-                                    <button className="btn btn-primary" onClick={handleStreamClick} style={{ flex: 1 }}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                                        </svg>
-                                        Stream Now
-                                    </button>
-                                    <button className="btn btn-glass" onClick={handleDownloadClick} style={{ flex: 1 }}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                            <polyline points="7 10 12 15 17 10"></polyline>
-                                            <line x1="12" y1="15" x2="12" y2="3"></line>
-                                        </svg>
-                                        Download
-                                    </button>
-                                </div>
-                            )
+                            <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem' }}>
+                                <button className="btn btn-primary" onClick={handleStreamClick} style={{ flex: 1 }}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                                    </svg>
+                                    Stream Now
+                                </button>
+                                <button className="btn btn-glass" onClick={handleDownloadClick} style={{ flex: 1 }}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                        <polyline points="7 10 12 15 17 10"></polyline>
+                                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                                    </svg>
+                                    Download
+                                </button>
+                            </div>
                         ) : (
                             <div style={{
                                 background: 'rgba(255, 193, 7, 0.1)',
                                 border: '1px solid rgba(255, 193, 7, 0.3)',
                                 padding: '1.5rem',
                                 borderRadius: 'var(--radius-md)',
-                                textAlign: 'center'
+                                textAlign: 'center',
+                                marginTop: '1.5rem'
                             }}>
-                                <p style={{ color: '#ffc107', margin: 0, fontSize: '0.95rem' }}>
-                                    ⚠️ Stream and Download are only available on Local Server
-                                </p>
-                                <p style={{ color: 'var(--text-muted)', margin: '0.5rem 0 0 0', fontSize: '0.85rem' }}>
-                                    Switch to "Local Server" in the header to enable these features
+                                <p style={{ margin: 0, color: 'rgba(255, 193, 7, 0.9)' }}>
+                                    Switch to Local Server to stream or download
                                 </p>
                             </div>
                         )}

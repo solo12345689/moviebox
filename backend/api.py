@@ -333,23 +333,38 @@ async def details(item_id: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-async def download_task(query: str, season: Optional[int] = None, episode: Optional[int] = None):
+async def download_task(item_id: Optional[str] = None, query: Optional[str] = None, season: Optional[int] = None, episode: Optional[int] = None):
     try:
-        # 1. Search
-        await manager.broadcast({"status": "searching", "message": f"Searching for {query}..."})
+        # 1. Get item from cache or search
+        item = None
+        search_instance = None
         
-        subject_type = SubjectType.ALL
-        if season is not None:
-             subject_type = SubjectType.TV_SERIES
-             
-        search_instance = Search(session=session, query=query, subject_type=subject_type)
-        results = await search_instance.get_content_model()
-        
-        if not results.items:
-            await manager.broadcast({"status": "error", "message": "No results found"})
-            return
+        if item_id and item_id in search_cache:
+            # Use cached item
+            cached = search_cache[item_id]
+            item = cached["item"]
+            search_instance = cached["search_instance"]
+            print(f"[DOWNLOAD] Using cached item: {getattr(item, 'title', 'Unknown')}")
+        elif query:
+            # Fallback: Search
+            await manager.broadcast({"status": "searching", "message": f"Searching for {query}..."})
+            
+            subject_type = SubjectType.ALL
+            if season is not None:
+                 subject_type = SubjectType.TV_SERIES
+                 
+            search_instance = Search(session=session, query=query, subject_type=subject_type)
+            results = await search_instance.get_content_model()
+            
+            if not results.items:
+                await manager.broadcast({"status": "error", "message": "No results found"})
+                return
 
-        item = results.items[0]
+            item = results.items[0]
+            print(f"[DOWNLOAD] Using search result: {getattr(item, 'title', 'Unknown')}")
+        else:
+            await manager.broadcast({"status": "error", "message": "No item ID or query provided"})
+            return
         
         # 2. Get Files
         await manager.broadcast({"status": "resolving", "message": "Resolving files..."})
@@ -409,45 +424,43 @@ async def download_task(query: str, season: Optional[int] = None, episode: Optio
         await manager.broadcast({"status": "error", "message": f"Download failed: {str(e)}"})
 
 @router.post("/download")
-async def download(query: str, season: Optional[int] = None, episode: Optional[int] = None):
+async def download(id: Optional[str] = None, query: Optional[str] = None, season: Optional[int] = None, episode: Optional[int] = None):
     # Start background task
-    asyncio.create_task(download_task(query, season, episode))
-    return {"status": "started", "message": f"Download started for {query}"}
+    asyncio.create_task(download_task(id, query, season, episode))
+    return {"status": "started", "message": f"Download started"}
 
 @router.post("/stream")
 async def stream(query: str, id: Optional[str] = None, content_type: str = "all", season: Optional[int] = None, episode: Optional[int] = None, mode: str = "play"):
     try:
-        # 1. Determine SubjectType
-        subject_type = SubjectType.ALL
-        if content_type.lower() == "movie" or content_type.lower() == "anime_movie":
-            subject_type = SubjectType.MOVIES
-        elif content_type.lower() == "series":
-            subject_type = SubjectType.TV_SERIES
-        elif content_type.lower() == "anime":
-            subject_type = SubjectType.TV_SERIES
-
-        # 2. Search for the item to get the full object
-        # We need the item object to use Downloadable...FilesDetail
-        search_instance = Search(session=session, query=query, subject_type=subject_type)
-        results = await search_instance.get_content_model()
-        
-        if not results.items:
-            raise HTTPException(status_code=404, detail="Content not found")
-            
-        # 3. Find the correct item
+        # 1. Try to use cached item first (avoids re-search and ID mismatch)
         target_item = None
-        if id:
-            # Try to match by ID if provided
-            for item in results.items:
-                # Check both 'id' and 'subjectId' attributes
-                item_id = getattr(item, 'id', getattr(item, 'subjectId', None))
-                if str(item_id) == str(id):
-                    target_item = item
-                    break
+        search_instance = None
         
-        # Fallback: use the first item if ID match fails or not provided
-        if not target_item:
+        if id and id in search_cache:
+            # Use cached item directly
+            cached = search_cache[id]
+            target_item = cached["item"]
+            search_instance = cached["search_instance"]
+            print(f"[STREAM] Using cached item: {getattr(target_item, 'title', 'Unknown')}")
+        else:
+            # 2. Fallback: Search for the item
+            subject_type = SubjectType.ALL
+            if content_type.lower() == "movie" or content_type.lower() == "anime_movie":
+                subject_type = SubjectType.MOVIES
+            elif content_type.lower() == "series":
+                subject_type = SubjectType.TV_SERIES
+            elif content_type.lower() == "anime":
+                subject_type = SubjectType.TV_SERIES
+
+            search_instance = Search(session=session, query=query, subject_type=subject_type)
+            results = await search_instance.get_content_model()
+            
+            if not results.items:
+                raise HTTPException(status_code=404, detail="Content not found")
+                
+            # 3. Use the first result as fallback
             target_item = results.items[0]
+            print(f"[STREAM] Using search result: {getattr(target_item, 'title', 'Unknown')}")
             
         # 4. Resolve Media File with encoding error handling
         media_file = None

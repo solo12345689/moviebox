@@ -17,10 +17,10 @@ You can host the backend on **Render** so it runs 24/7 without your PC or Phone.
     *   **Name**: `moviebox-backend` (or similar)
     *   **Region**: Choose one close to you (e.g., Singapore, Frankfurt).
     *   **Branch**: `main` (or master)
-    *   **Root Directory**: `.` (leave empty)
+    *   **Root Directory**: `backend` (Important: Change this from empty to `backend`)
     *   **Runtime**: `Python 3`
-    *   **Build Command**: `pip install -r backend/requirements.txt`
-    *   **Start Command**: `cd backend && python -m uvicorn api:app --host 0.0.0.0 --port $PORT`
+    *   **Build Command**: `pip install -r requirements.txt`
+    *   **Start Command**: `python -m uvicorn main:app --host 0.0.0.0 --port $PORT`
     *   **Instance Type**: `Free`
 
 4.  Click **"Create Web Service"**.
