@@ -61,7 +61,7 @@ From the project root (`moviebox_web_app`), run:
 
 ```bash
 cd backend
-python -m uvicorn main:app --reload --port 8000
+python -m uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
 The backend API will be available at `http://localhost:8000`.
@@ -71,7 +71,7 @@ The backend API will be available at `http://localhost:8000`.
 From the `frontend` directory, run:
 
 ```bash
-npm run dev
+npm run dev -- --host
 ```
 
 The web application will be available at `http://localhost:5173`.
