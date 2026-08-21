@@ -22,10 +22,30 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI(title="MovieBox Unofficial API Backend")
 
-# Enable CORS for Next.js frontend
+
+@app.get("/")
+def root_health():
+    """Lightweight Render/Uvicorn health endpoint."""
+    return {"status": "ok", "service": "moviebox-internal-api"}
+
+
+@app.get("/health")
+def health_check():
+    return {"status": "ok"}
+
+# Enable CORS for local and deployed Wotchly frontends.
+# Render/Netlify deployments have historically used both variable names, so
+# treat FRONTEND_URL as a backwards-compatible alias for CORS_ORIGINS.
+_allowed_origins = [
+    origin.strip()
+    for raw in (os.getenv("CORS_ORIGINS", ""), os.getenv("FRONTEND_URL", ""))
+    for origin in raw.split(",")
+    if origin.strip()
+]
+_allowed_origins += ["http://localhost:3000", "http://localhost:3001", "http://127.0.0.1:3000", "http://127.0.0.1:3001"]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:3001", "http://127.0.0.1:3000", "http://127.0.0.1:3001"],
+    allow_origins=sorted(set(_allowed_origins)),
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -417,18 +437,49 @@ def get_discovery(session_id: Optional[str] = Cookie(None)):
         logger.error(f"Discovery error: {e}")
         return {"code": 1, "data": []}
 
+def _extract_items(value, depth: int = 0) -> list:
+    """Extract content from the different envelopes returned by MovieBox regions."""
+    if value is None or depth > 6:
+        return []
+    if isinstance(value, list):
+        flattened = []
+        for item in value:
+            if isinstance(item, dict) and any(isinstance(item.get(k), (list, dict)) for k in ("items", "list", "subjects", "movieList", "data")):
+                nested = next((item.get(k) for k in ("items", "list", "subjects", "movieList", "data") if item.get(k) is not None), None)
+                flattened.extend(_extract_items(nested, depth + 1) or [item])
+            else:
+                flattened.append(item)
+        return flattened
+    if isinstance(value, dict):
+        for key in ("items", "list", "subjects", "movieList", "results", "data"):
+            if key in value:
+                items = _extract_items(value[key], depth + 1)
+                if items:
+                    return items
+    return []
+
 @app.get("/trending")
-def get_trending(session_id: Optional[str] = Cookie(None)):
+def get_trending(response: Response, session_id: Optional[str] = Cookie(None)):
     s = get_session(session_id)
+    response.set_cookie(key="session_id", value=s["id"], httponly=True, samesite="lax")
     try:
-        res = s["content"].get_trending()
-        logger.info(f"TRENDING RAW: {json.dumps(res)[:1000]}")
-        data = res.get("data") or {}
-        items = data.get("list") or data.get("items") or []
-        return {"code": 0, "data": [map_item(i) for i in items[:20]]}
+        # MovieBox has moved the guest home feed between BFF endpoints. Try
+        # known contracts and return the first non-empty catalogue.
+        candidates = [
+            s["content"].get_trending(),
+            s["content"].get_home_list(category_id=1),
+            s["content"].get_categories(category_id=1, page=1),
+        ]
+        for res in candidates:
+            logger.info("TRENDING RAW: %s", json.dumps(res, default=str)[:1200])
+            items = _extract_items(res)
+            mapped = [map_item(i) for i in items[:40] if isinstance(i, dict)]
+            if mapped:
+                return {"code": 0, "data": mapped}
+        return {"code": 0, "data": [], "meta": {"source": "moviebox", "empty": True}}
     except Exception as e:
-        logger.error(f"Trending error: {e}")
-        return {"code": 1, "data": []}
+        logger.exception("Trending upstream error")
+        raise HTTPException(status_code=502, detail=f"MovieBox trending unavailable: {e}")
 
 @app.get("/movies")
 def get_movies(page: int = 1, session_id: Optional[str] = Cookie(None)):
@@ -439,8 +490,8 @@ def get_movies(page: int = 1, session_id: Optional[str] = Cookie(None)):
         items = data.get("list") or data.get("items") or data.get("subjects") or []
         return {"code": 0, "data": {"list": format_tab_sections(items)}}
     except Exception as e:
-        logger.error(f"Movies error: {e}")
-        return {"code": 1, "data": []}
+        logger.exception("Movies upstream error")
+        raise HTTPException(status_code=502, detail=f"MovieBox movies unavailable: {e}")
 
 def format_tab_sections(items: list):
     sections = []
@@ -634,18 +685,19 @@ def get_search_suggestions(response: Response, q: Optional[str] = None, session_
         return {"code": 0, "data": []}
 
 @app.get("/search")
-def search(q: str, page: int = 1, session_id: Optional[str] = Cookie(None)):
+def search(response: Response, q: str, page: int = 1, session_id: Optional[str] = Cookie(None)):
     s = get_session(session_id)
+    response.set_cookie(key="session_id", value=s["id"], httponly=True, samesite="lax")
     try:
-        res = s["content"].search(q, page=page)
-        data = res.get("data", {})
-        # Search API returns 'list' or 'items' depending on version/carrier
-        items = data.get("list") or data.get("items") or res.get("list") or res.get("items") or []
-        
-        return {"code": 0, "data": {"items": [map_item(i) for i in items]}}
+        if not q.strip():
+            return {"code": 0, "data": {"items": []}}
+        res = s["content"].search(q.strip(), page=page)
+        logger.info(f"SEARCH RAW ({q}): {json.dumps(res, default=str)[:2000]}")
+        items = _extract_items(res)
+        return {"code": 0, "data": {"items": [map_item(i) for i in items[:40] if isinstance(i, dict)]}}
     except Exception as e:
-        logger.error(f"Search failed for {q}: {e}")
-        return {"code": 0, "data": {"items": []}}
+        logger.exception("Search upstream error for %s", q)
+        raise HTTPException(status_code=502, detail=f"MovieBox search unavailable: {e}")
 
 @app.get("/rooms/recommend")
 def get_rooms(page: int = 1, session_id: Optional[str] = Cookie(None)):

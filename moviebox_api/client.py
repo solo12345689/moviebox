@@ -4,7 +4,7 @@ import logging
 import time
 from typing import Optional, Dict, Any
 from urllib.parse import urlencode, urlparse
-from .utils import generate_tr_signature, md5_hex, GATEWAY_SECRET_ONLINE
+from .utils import generate_tr_signature, md5_hex, GATEWAY_SECRET_ONLINE, get_default_client_info, generate_client_token
 from .auth import MovieBoxAuth
 
 # Configure logging
@@ -30,9 +30,15 @@ class MovieBoxClient:
     def get_auth_headers(self, timestamp: str) -> Dict[str, str]:
         """Provides consistent headers matching the MovieBox app's security model."""
         headers = {
-            "User-Agent": "MovieBoxPro/16.2.1 (Android 14; com.community.mbox.in)",
+            "User-Agent": "MovieBoxPro/16.2.1 (Android 12; Pixel 6)",
             "Accept": "application/json",
-            "X-Sign-Version": "2.0"
+            "X-M-Version": "16.2.1",
+            "Referer": f"{self.BASE_URL}/",
+            "X-Sign-Version": "2.0",
+            "X-Client-Token": generate_client_token(),
+            "X-Client-Info": json.dumps(get_default_client_info(), separators=(",", ":")),
+            "X-Client-Status": "0",
+            "X-Play-Mode": "2"
         }
         # Fixed appid to match gateway_sdk initialization parameter and removed appkey (which causes 440)
         headers["appid"] = "4U01pxRu278GqCZKY9"

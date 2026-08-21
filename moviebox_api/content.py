@@ -16,9 +16,9 @@ class MovieBoxContent:
     def search(self, keyword: str, page: int = 1, page_size: int = 20) -> Dict:
         """Searches for content based on keyword."""
         return self.client.request(
-            "POST",
-            "/subject-api/search",
-            data={"keyword": keyword, "page": page, "pageSize": page_size}
+            "GET",
+            "/wefeed-mobile-bff/subject-api/search",
+            params={"q": keyword, "page": page, "pageSize": page_size}
         )
 
     def get_movie_detail(self, subject_id: str) -> Dict:
@@ -105,17 +105,13 @@ class MovieBoxContent:
         """Homepage Top Picks."""
         return self.client.request(
             "POST",
-            "/wefeed-mobile-bff/subject-api/top-rec",
-            data={}
+            "/wefeed-mobile-bff/subject-api/daily-movie-rec",
+            data={"page": 1, "pageSize": 24}
         )
 
     def get_trending(self) -> Dict:
         """Trending Row."""
-        return self.client.request(
-            "POST",
-            "/wefeed-mobile-bff/subject-api/trending/v2",
-            data={}
-        )
+        return self.get_home(page=1, page_size=24)
 
     def get_subject_list(self, page: int = 1, category_type: str = "1") -> Dict:
         """Fetches a general list of subjects (Movies/Series)."""
